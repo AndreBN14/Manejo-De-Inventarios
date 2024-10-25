@@ -46,4 +46,23 @@ public class ListaEnlazada {
         System.out.println("null");
     }
     
+    public boolean eliminarNodo(int id) {
+        if (lista == null) return false;
+    
+        if (lista.id == id) {
+            lista = lista.siguiente;
+            return true;
+        }
+    
+        NodoProducto actual = lista;
+        while (actual.siguiente != null && actual.siguiente.id != id) {
+            actual = actual.siguiente;
+        }
+    
+        if (actual.siguiente == null) return false;
+    
+        actual.siguiente = actual.siguiente.siguiente;
+        return true;
+    }
+    
 }

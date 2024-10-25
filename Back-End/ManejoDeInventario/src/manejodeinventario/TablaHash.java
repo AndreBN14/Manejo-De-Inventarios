@@ -35,4 +35,18 @@ public class TablaHash {
             tabla[i].mostrarLista();
         }
     }
+
+    public boolean eliminarProducto(int id) {
+        int indice = funcionHash(id);
+        Producto producto = tabla[indice].obtenerProducto(id);
+        
+        if (producto != null && producto.getCantidad() > 0) {
+            System.out.println("No se puede eliminar el producto con stock disponible.");
+            return false;
+        }
+        
+        // Llamar al método eliminar de la lista enlazada
+        return tabla[indice].eliminarNodo(id);
+    }
+    
 }
