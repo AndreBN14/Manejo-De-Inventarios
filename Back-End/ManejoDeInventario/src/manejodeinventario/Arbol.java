@@ -60,7 +60,7 @@ public class Arbol {
             return false;
         }
     }
-
+    //Eliminación considerando los tres casos mencionados
     private Nodo eliminarr(Nodo nodo, int id) {
         if (nodo == null) {
             return null;
@@ -76,23 +76,26 @@ public class Arbol {
                 return nodo;
             }
 
+            // Caso 1: Nodo sin hijos
             if (nodo.izquierdo == null && nodo.derecho == null) {
                 return null;
             }
-
+            
+            // Caso 2: Nodo con un solo hijo
             if (nodo.izquierdo == null) {
                 return nodo.derecho;
             } else if (nodo.derecho == null) {
                 return nodo.izquierdo;
             }
-
+            
+            // Caso 3: Nodo con dos hijos
             Nodo sucesor = encontrarmin(nodo.derecho);
             nodo.producto = sucesor.producto;
             nodo.derecho = eliminarr(nodo.derecho, sucesor.producto.getId());
         }
         return nodo;
     }
-
+    // Método para encontrar el nodo con el valor mínimo en un subárbol
     private Nodo encontrarmin(Nodo nodo) {
         while (nodo.izquierdo != null) {
             nodo = nodo.izquierdo;
