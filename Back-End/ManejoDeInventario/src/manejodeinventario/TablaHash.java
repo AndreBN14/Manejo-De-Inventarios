@@ -51,4 +51,31 @@ public class TablaHash {
         // Llamar al método eliminar de la lista enlazada
         return tabla[indice].eliminarNodo(id);
     }
+    
+    // Método para actualizar un producto existente en la tabla hash
+    public boolean actualizarProducto(int id, int nuevaCantidad, double nuevoPrecio) {
+        int indice = funcionHash(id);
+        Producto producto = tabla[indice].obtenerProducto(id);
+
+        if (producto != null) {
+            producto.setCantidad(nuevaCantidad);
+            producto.setPrecio(nuevoPrecio);
+            return true;
+        } else {
+            System.out.println("Producto con ID " + id + " no encontrado.");
+            return false;
+        }
+    }
+
+    // Método para buscar un producto por su nombre en toda la tabla hash
+    public Producto buscarPorNombre(String nombre) {
+        for (ListaEnlazada lista : tabla) {
+            Producto producto = lista.obtenerProductoPorNombre(nombre);
+            if (producto != null) {
+                return producto;
+            }
+        }
+        System.out.println("Producto con nombre " + nombre + " no encontrado.");
+        return null;
+    }
 }

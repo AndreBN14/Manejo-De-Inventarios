@@ -65,4 +65,14 @@ public class ListaEnlazada {
         return true;
     }
     
+    public Producto obtenerProductoPorNombre(String nombre) {
+        NodoProducto actual = lista;
+        while (actual != null) {
+            if (actual.producto.getNombre().equals(nombre)) {
+                return actual.producto;
+            }
+            actual = actual.siguiente;
+        }
+        return null;
+    }
 }

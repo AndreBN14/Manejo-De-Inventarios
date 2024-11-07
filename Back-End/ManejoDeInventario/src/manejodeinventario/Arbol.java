@@ -8,6 +8,40 @@ public class Arbol {
         raiz = null;
     }
     
+    public boolean actualizarProducto(int id, int nuevaCantidad, double nuevoPrecio){
+        Nodo nodo = buscarNodoPorID(raiz, id);
+        if (nodo != null) {
+            nodo.producto.setCantidad(nuevaCantidad);
+            nodo.producto.setPrecio(nuevoPrecio);
+            return true;
+        }
+        return false;
+    }
+    
+    public Producto buscarPorID(int id) {
+        Nodo nodo = buscarNodoPorID(raiz, id);
+        return nodo != null ? nodo.producto : null;
+    }
+
+    public Producto buscarPorNombre(String nombre) {
+        return buscarPorNombreRecursivo(raiz, nombre);
+    }
+
+    private Producto buscarPorNombreRecursivo(Nodo nodo, String nombre) {
+        if (nodo == null) return null;
+        if (nodo.producto.getNombre().equals(nombre)) return nodo.producto;
+        Producto productoIzq = buscarPorNombreRecursivo(nodo.izquierdo, nombre);
+        if (productoIzq != null) return productoIzq;
+        return buscarPorNombreRecursivo(nodo.derecho, nombre);
+    }
+    
+    private Nodo buscarNodoPorID(Nodo nodo, int id) {
+        if (nodo == null) return null;
+        if (nodo.producto.getId() == id) return nodo;
+        if (id < nodo.producto.getId()) return buscarNodoPorID(nodo.izquierdo, id);
+        else return buscarNodoPorID(nodo.derecho, id);
+    }
+    
     public void insertar(Producto producto) {
         raiz = insertarRecursivo(raiz, producto);
     }
