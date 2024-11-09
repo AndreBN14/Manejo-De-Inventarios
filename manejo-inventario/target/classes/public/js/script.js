@@ -18,6 +18,7 @@ function cargarProductos() {
 document.getElementById('add-product-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
+    const id = parseInt(document.getElementById('id').value);
     const nombre = document.getElementById('nombre').value;
     const cantidad = parseInt(document.getElementById('cantidad').value);
     const precio = parseFloat(document.getElementById('precio').value);
@@ -25,7 +26,7 @@ document.getElementById('add-product-form').addEventListener('submit', function(
     fetch('/api/productos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, cantidad, precio })
+        body: JSON.stringify({ id,nombre, cantidad, precio })
     })
     .then(response => response.text())
     .then(message => {
@@ -61,6 +62,7 @@ document.getElementById('delete-product-form').addEventListener('submit', functi
     event.preventDefault();
 
     const id = parseInt(document.getElementById('delete-id').value);
+    console.log("Eliminando producto con ID:", id); // Para depurar
 
     fetch(`/api/productos/${id}`, {
         method: 'DELETE'

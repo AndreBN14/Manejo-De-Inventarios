@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.AppTest" time="0.022" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.AppTest" time="0.02" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="PE"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
-    <property name="sun.java.command" value="C:\Users\Carlos Andres\AppData\Local\Temp\surefire16023795847426643031\surefirebooter-20241109022914461_3.jar C:\Users\Carlos Andres\AppData\Local\Temp\surefire16023795847426643031 2024-11-09T02-29-14_326-jvmRun1 surefire-20241109022914461_1tmp surefire_0-20241109022914461_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Carlos Andres\AppData\Local\Temp\surefire3507685944887721662\surefirebooter-20241109031520548_3.jar C:\Users\Carlos Andres\AppData\Local\Temp\surefire3507685944887721662 2024-11-09T03-15-20_411-jvmRun1 surefire-20241109031520548_1tmp surefire_0-20241109031520548_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="E:\Manejo-De-Inventarios\manejo-inventario\target\test-classes;E:\Manejo-De-Inventarios\manejo-inventario\target\classes;C:\Users\Carlos Andres\.m2\repository\org\slf4j\slf4j-simple\1.7.32\slf4j-simple-1.7.32.jar;C:\Users\Carlos Andres\.m2\repository\org\slf4j\slf4j-api\1.7.32\slf4j-api-1.7.32.jar;C:\Users\Carlos Andres\.m2\repository\junit\junit\3.8.1\junit-3.8.1.jar;C:\Users\Carlos Andres\.m2\repository\com\sparkjava\spark-core\2.9.3\spark-core-2.9.3.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\jetty-server\9.4.31.v20200723\jetty-server-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\javax\servlet\javax.servlet-api\3.1.0\javax.servlet-api-3.1.0.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\jetty-http\9.4.31.v20200723\jetty-http-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\jetty-util\9.4.31.v20200723\jetty-util-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\jetty-io\9.4.31.v20200723\jetty-io-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\jetty-webapp\9.4.31.v20200723\jetty-webapp-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\jetty-xml\9.4.31.v20200723\jetty-xml-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\jetty-servlet\9.4.31.v20200723\jetty-servlet-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\jetty-security\9.4.31.v20200723\jetty-security-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\websocket\websocket-server\9.4.31.v20200723\websocket-server-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\websocket\websocket-common\9.4.31.v20200723\websocket-common-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\websocket\websocket-client\9.4.31.v20200723\websocket-client-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\jetty-client\9.4.31.v20200723\jetty-client-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\websocket\websocket-servlet\9.4.31.v20200723\websocket-servlet-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\org\eclipse\jetty\websocket\websocket-api\9.4.31.v20200723\websocket-api-9.4.31.v20200723.jar;C:\Users\Carlos Andres\.m2\repository\com\google\code\gson\gson\2.8.9\gson-2.8.9.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Carlos Andres\AppData\Local\Temp\surefire16023795847426643031\surefirebooter-20241109022914461_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Carlos Andres\AppData\Local\Temp\surefire3507685944887721662\surefirebooter-20241109031520548_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.2+13-LTS-58"/>

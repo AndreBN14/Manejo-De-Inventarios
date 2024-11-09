@@ -3,8 +3,6 @@ package com.example.manejodeinventario;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.List;
-import java.util.Scanner;
 
 import com.google.gson.Gson;
 
@@ -104,69 +102,21 @@ public class ManejoDeInventario {
             int idEliminar = Integer.parseInt(request.params(":id"));
             boolean eliminadoEnArbol = arbol.eliminarp(idEliminar);
             boolean eliminadoEnHash = tablaHash.eliminarProducto(idEliminar);
+            
             if (eliminadoEnArbol && eliminadoEnHash) {
                 response.status(200);
                 return "Producto eliminado exitosamente.";
             } else {
                 response.status(404);
+                if (!eliminadoEnArbol) {
+                    return "No se pudo eliminar el producto en el árbol.";
+                } else if (!eliminadoEnHash) {
+                    return "No se pudo eliminar el producto en la tabla hash.";
+                }
                 return "No se pudo eliminar el producto o tiene stock disponible.";
             }
         });
-
-        // Interfaz de consola para el manejo del inventario
-        Scanner scanner = new Scanner(System.in);
         
-        while (true) {
-            System.out.println("---- Sistema de Manejo de Inventario ----");
-            System.out.println("1. Insertar Producto");
-            System.out.println("2. Actualizar Producto");
-            System.out.println("3. Buscar Producto por ID");
-            System.out.println("4. Buscar Producto por Nombre");
-            System.out.println("5. Eliminar Producto");
-            System.out.println("6. Mostrar Inventario");
-            System.out.println("0. Salir");
-            System.out.print("Seleccione una opción: ");
-            
-            int opcion = scanner.nextInt();
-            scanner.nextLine();  // Limpiar el buffer de entrada
-
-            switch (opcion) {
-                case 1:
-                    // Código para insertar producto
-                    break;
-                case 2:
-                    // Código para actualizar producto
-                    break;
-                case 3:
-                    // Código para buscar por ID
-                    break;
-                case 4:
-                    // Código para buscar por nombre
-                    break;
-                case 5:
-                    // Código para eliminar producto
-                    break;
-                case 6:
-                    // Mostrar inventario en orden
-                    List<Producto> productos = arbol.obtenerProductosEnOrden();
-                    if (productos.isEmpty()) {
-                        System.out.println("El inventario está vacío.");
-                    } else {
-                        System.out.println("---- Inventario en Orden ----");
-                        for (Producto producto : productos) {
-                            System.out.println(producto);
-                        }
-                    }
-                    break;
-                case 0:
-                    System.out.println("Saliendo del sistema...");
-                    break;
-                default:
-                    System.out.println("Opción no válida, por favor intente nuevamente.");
-            }
-            if(opcion == 0){
-                break;
-            }
-        }
+        
     }
 }
