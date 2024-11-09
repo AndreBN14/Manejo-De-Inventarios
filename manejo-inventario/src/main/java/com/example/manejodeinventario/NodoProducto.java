@@ -1,4 +1,3 @@
-
 package com.example.manejodeinventario;
 
 //Para la lista simple de la tabla hash

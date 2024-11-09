@@ -3,26 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Inventarios</title>
+    <title>Manejo de Inventario</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Agregar Producto</h1>
-    <form id="form-producto">
-        <label for="id">ID:</label>
-        <input type="number" id="id" required><br>
-        
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" required><br>
-        
-        <label for="precio">Precio:</label>
-        <input type="number" id="precio" step="0.01" required><br>
-        
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" id="cantidad" required><br>
-        
-        <button type="submit">Agregar Producto</button>
-    </form>
+    <h1>Manejo de Inventario</h1>
+
+    <!-- Formulario para añadir un producto -->
+    <section id="add-product-section">
+        <h2>Añadir Producto</h2>
+        <form id="add-product-form">
+            <input type="text" id="nombre" placeholder="Nombre del producto" required>
+            <input type="number" id="cantidad" placeholder="Cantidad" required>
+            <input type="number" step="0.01" id="precio" placeholder="Precio" required>
+            <button type="submit">Añadir Producto</button>
+        </form>
+    </section>
+
+    <!-- Formulario para actualizar un producto -->
+    <section id="update-product-section">
+        <h2>Actualizar Producto</h2>
+        <form id="update-product-form">
+            <input type="number" id="update-id" placeholder="ID del producto" required>
+            <input type="number" id="update-cantidad" placeholder="Nueva cantidad">
+            <input type="number" step="0.01" id="update-precio" placeholder="Nuevo precio">
+            <button type="submit">Actualizar Producto</button>
+        </form>
+    </section>
+
+    <!-- Formulario para eliminar un producto -->
+    <section id="delete-product-section">
+        <h2>Eliminar Producto</h2>
+        <form id="delete-product-form">
+            <input type="number" id="delete-id" placeholder="ID del producto" required>
+            <button type="submit">Eliminar Producto</button>
+        </form>
+    </section>
+
+    <!-- Lista de productos -->
+    <section id="product-list-section">
+        <h2>Lista de Productos</h2>
+        <ul id="product-list"></ul>
+    </section>
 
     <script src="/js/script.js"></script>
 </body>

@@ -1,12 +1,19 @@
 package com.example.manejodeinventario;
 
-import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 import java.util.Scanner;
-import static spark.Spark.*;
+
+import com.google.gson.Gson;
+
+import static spark.Spark.delete;
+import static spark.Spark.get;
+import static spark.Spark.port;
+import static spark.Spark.post;
+import static spark.Spark.put;
+import static spark.Spark.staticFiles;
 
 public class ManejoDeInventario {
     public static void main(String[] args) {
@@ -21,6 +28,15 @@ public class ManejoDeInventario {
 
         // Servir archivos estáticos (index.html, script.js, style.css)
         staticFiles.location("/public");
+
+        // Endpoint para añadir un producto (POST /api/productos)
+        post("/api/productos", (request, response) -> {
+            Producto nuevoProducto = gson.fromJson(request.body(), Producto.class);
+            arbol.insertar(nuevoProducto);
+            tablaHash.insertar(nuevoProducto);
+            response.status(201);
+            return "Producto añadido exitosamente.";
+        });
 
         // Endpoint para actualizar un producto (PUT /api/productos/:id)
         put("/api/productos/:id", (request, response) -> {

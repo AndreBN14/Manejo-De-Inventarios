@@ -1,4 +1,3 @@
-
 package com.example.manejodeinventario;
 
 public class TablaHash {
