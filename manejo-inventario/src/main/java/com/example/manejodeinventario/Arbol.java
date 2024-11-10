@@ -105,52 +105,56 @@ public class Arbol {
         }
         Nodo resultado = eliminarr(raiz, id);
         if (resultado != null) {
-            // Eliminar también en la tabla hash
-            tablaHash.eliminarProducto(id);
-            System.out.println("Producto eliminado.");
-            return true;
+            // Eliminar en la tabla hash también si se encontró en el árbol
+            if (tablaHash.eliminarProducto(id)) {
+                System.out.println("Producto eliminado.");
+                return true;
+            } else {
+                System.out.println("No se pudo eliminar el producto de la tabla hash.");
+                return false;
+            }
         } else {
-            System.out.println("No se encontró el producto con ID: " + id + " o tiene stock disponible.");
+            System.out.println("No se encontró el producto con ID: " + id);
             return false;
         }
     }
+
     //Eliminación considerando los tres casos mencionados
     private Nodo eliminarr(Nodo nodo, int id) {
+        
         if (nodo == null) {
-            return null;
+            return null;  // Si el nodo es nulo, no hay nada que eliminar
         }
-
-        if (id < nodo.producto.getId()) {
+    
+        if (id < nodo.producto.getId()) {  // Accedemos al id del producto
+            // Si el ID es menor, buscamos en el subárbol izquierdo
             nodo.izquierdo = eliminarr(nodo.izquierdo, id);
-        } else if (id > nodo.producto.getId()) {
+        } else if (id > nodo.producto.getId()) {  // Accedemos al id del producto
+            // Si el ID es mayor, buscamos en el subárbol derecho
             nodo.derecho = eliminarr(nodo.derecho, id);
         } else {
-            if (nodo.producto.getCantidad() > 0) {
-                System.out.println("No se puede eliminar el producto con stock disponible.");
-                return nodo;
-            }
-
-            // Caso 1: Nodo sin hijos
+            // Si encontramos el nodo con el ID del producto
             if (nodo.izquierdo == null && nodo.derecho == null) {
+                // Si no tiene hijos, simplemente lo eliminamos
                 return null;
-            }
-            
-            // Caso 2: Nodo con un solo hijo
-            if (nodo.izquierdo == null) {
+            } else if (nodo.izquierdo == null) {
+                // Si solo tiene hijo derecho, lo reemplazamos por el hijo derecho
                 return nodo.derecho;
             } else if (nodo.derecho == null) {
+                // Si solo tiene hijo izquierdo, lo reemplazamos por el hijo izquierdo
                 return nodo.izquierdo;
+            } else {
+                // Si tiene ambos hijos, encontramos el sucesor en el subárbol derecho
+                Nodo sucesor = encontrarMinimo(nodo.derecho);
+                nodo.producto = sucesor.producto;  // Reemplazamos el producto del nodo con el producto del sucesor
+                nodo.derecho = eliminarr(nodo.derecho, sucesor.producto.getId());  // Eliminamos el sucesor
             }
-            
-            // Caso 3: Nodo con dos hijos
-            Nodo sucesor = encontrarmin(nodo.derecho);
-            nodo.producto = sucesor.producto;
-            nodo.derecho = eliminarr(nodo.derecho, sucesor.producto.getId());
         }
-        return nodo;
+        return nodo;  // Retornamos el nodo actualizado
     }
-    // Método para encontrar el nodo con el valor mínimo en un subárbol
-    private Nodo encontrarmin(Nodo nodo) {
+        
+    // Método para encontrar el nodo con el valor mínimo en el subárbol derecho
+    private Nodo encontrarMinimo(Nodo nodo) {
         while (nodo.izquierdo != null) {
             nodo = nodo.izquierdo;
         }

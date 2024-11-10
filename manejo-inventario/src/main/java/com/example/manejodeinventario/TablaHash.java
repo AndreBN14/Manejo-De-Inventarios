@@ -38,10 +38,7 @@ public class TablaHash {
         int indice = funcionHash(id);
         Producto producto = tabla[indice].obtenerProducto(id);
 
-        if (producto != null && producto.getCantidad() > 0) {
-            System.out.println("No se puede eliminar el producto con stock disponible.");
-            return false;
-        } else if (producto == null) {
+        if (producto == null) {
             System.out.println("Producto con ID " + id + " no encontrado.");
             return false;
         }
