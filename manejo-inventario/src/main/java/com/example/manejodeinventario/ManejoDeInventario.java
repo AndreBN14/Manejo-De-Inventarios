@@ -15,8 +15,8 @@ import static spark.Spark.staticFiles;
 
 public class ManejoDeInventario {
     public static void main(String[] args) {
-        Arbol arbol = new Arbol();
         TablaHash tablaHash = new TablaHash(10);
+        Arbol arbol = new Arbol(tablaHash);
         ActualizadorProductos actualizador = new ActualizadorProductos(arbol, tablaHash);
         BuscadorProductos buscador = new BuscadorProductos(arbol, tablaHash);
         Gson gson = new Gson();
@@ -34,20 +34,6 @@ public class ManejoDeInventario {
             tablaHash.insertar(nuevoProducto);
             response.status(201);
             return "Producto añadido exitosamente.";
-        });
-
-        // Endpoint para actualizar un producto (PUT /api/productos/:id)
-        put("/api/productos/:id", (request, response) -> {
-            int idActualizar = Integer.parseInt(request.params(":id"));
-            Producto datosActualizados = gson.fromJson(request.body(), Producto.class);
-            boolean actualizado = actualizador.actualizarProducto(idActualizar, datosActualizados.getCantidad(), datosActualizados.getPrecio());
-            if (actualizado) {
-                response.status(200);
-                return "Producto actualizado exitosamente.";
-            } else {
-                response.status(404);
-                return "Producto no encontrado.";
-            }
         });
 
         // Endpoint para actualizar un producto (PUT /api/productos/:id)
@@ -116,7 +102,5 @@ public class ManejoDeInventario {
                 return "No se pudo eliminar el producto o tiene stock disponible.";
             }
         });
-        
-        
     }
 }

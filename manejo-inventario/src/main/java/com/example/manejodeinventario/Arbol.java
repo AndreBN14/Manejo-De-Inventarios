@@ -3,9 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 public class Arbol {
     private Nodo raiz;
+    private TablaHash tablaHash;
 
-    public Arbol() {
+    public Arbol(TablaHash tablaHash) {
         raiz = null;
+        this.tablaHash = tablaHash;
     }
     
     public boolean actualizarProducto(int id, int nuevaCantidad, double nuevoPrecio){
@@ -103,6 +105,8 @@ public class Arbol {
         }
         Nodo resultado = eliminarr(raiz, id);
         if (resultado != null) {
+            // Eliminar también en la tabla hash
+            tablaHash.eliminarProducto(id);
             System.out.println("Producto eliminado.");
             return true;
         } else {
