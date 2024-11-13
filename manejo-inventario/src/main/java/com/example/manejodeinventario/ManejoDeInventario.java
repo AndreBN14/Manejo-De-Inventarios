@@ -1,46 +1,54 @@
 package com.example.manejodeinventario;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
 import com.google.gson.Gson;
+import spark.Request;
+import spark.Response;
 
-import static spark.Spark.delete;
-import static spark.Spark.get;
-import static spark.Spark.port;
-import static spark.Spark.post;
-import static spark.Spark.put;
-import static spark.Spark.staticFiles;
+import static spark.Spark.*;
 
 public class ManejoDeInventario {
+    private static final Gson gson = new Gson();
+    private static TablaHash tablaHash = new TablaHash(10);
+    private static GestorProductos gestorProductos = new GestorProductos(tablaHash);
+
     public static void main(String[] args) {
-        TablaHash tablaHash = new TablaHash(10);
-        Arbol arbol = new Arbol(tablaHash);
-        ActualizadorProductos actualizador = new ActualizadorProductos(arbol, tablaHash);
-        BuscadorProductos buscador = new BuscadorProductos(arbol, tablaHash);
-        Gson gson = new Gson();
-
-        // Configuración de Spark
         port(4567);
-
-        // Servir archivos estáticos (index.html, script.js, style.css)
         staticFiles.location("/public");
 
-        // Endpoint para añadir un producto (POST /api/productos)
-        post("/api/productos", (request, response) -> {
+        get("/", (request, response) -> {
+            response.redirect("/html/index.html");
+            return null;
+        });
+
+        get("/api/productos", (request, response) -> {
+            response.type("application/json");
+            return gson.toJson(tablaHash.obtenerTodosLosProductos());  // Método que obtendrá todos los productos en `TablaHash`
+        });
+        
+
+        post("/api/productos", ManejoDeInventario::añadirProducto);
+        put("/api/productos/:id", ManejoDeInventario::actualizarProducto);
+        get("/api/productos/:id", ManejoDeInventario::buscarProductoPorId);
+        delete("/api/productos/:id", ManejoDeInventario::eliminarProducto);
+    }
+
+    private static String añadirProducto(Request request, Response response) {
+        try {
             Producto nuevoProducto = gson.fromJson(request.body(), Producto.class);
-            arbol.insertar(nuevoProducto);
             tablaHash.insertar(nuevoProducto);
             response.status(201);
             return "Producto añadido exitosamente.";
-        });
+        } catch (Exception e) {
+            response.status(400);
+            return "Error en el formato del producto.";
+        }
+    }
 
-        // Endpoint para actualizar un producto (PUT /api/productos/:id)
-        put("/api/productos/:id", (request, response) -> {
-            int idActualizar = Integer.parseInt(request.params(":id"));
+    private static String actualizarProducto(Request request, Response response) {
+        try {
+            int id = Integer.parseInt(request.params(":id"));
             Producto datosActualizados = gson.fromJson(request.body(), Producto.class);
-            boolean actualizado = actualizador.actualizarProducto(idActualizar, datosActualizados.getCantidad(), datosActualizados.getPrecio());
+            boolean actualizado = gestorProductos.actualizarProducto(id, datosActualizados.getCantidad(), datosActualizados.getPrecio());
             if (actualizado) {
                 response.status(200);
                 return "Producto actualizado exitosamente.";
@@ -48,59 +56,46 @@ public class ManejoDeInventario {
                 response.status(404);
                 return "Producto no encontrado.";
             }
-        });
+        } catch (NumberFormatException e) {
+            response.status(400);
+            return "ID inválido.";
+        } catch (Exception e) {
+            response.status(500);
+            return "Error al actualizar el producto.";
+        }
+    }
 
-        get("/", (req, res) -> {
-            // Ruta al archivo index.html
-            File file = new File("src/main/resources/public/html/index.html");
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            StringBuilder content = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-            reader.close();
-            return content.toString(); // Devolver el contenido del archivo
-        });
-        
-
-        // Endpoint para buscar un producto por ID (GET /api/productos/:id)
-        get("/api/productos/:id", (request, response) -> {
-            int idBuscar = Integer.parseInt(request.params(":id"));
-            Producto productoPorID = buscador.buscarPorID(idBuscar);
-            if (productoPorID != null) {
+    private static String buscarProductoPorId(Request request, Response response) {
+        try {
+            int id = Integer.parseInt(request.params(":id"));
+            Producto producto = gestorProductos.buscarPorID(id);
+            if (producto != null) {
                 response.status(200);
-                return gson.toJson(productoPorID);
+                return gson.toJson(producto);
             } else {
                 response.status(404);
                 return "Producto no encontrado.";
             }
-        });
+        } catch (NumberFormatException e) {
+            response.status(400);
+            return "ID inválido.";
+        }
+    }
 
-        // Endpoint para obtener todos los productos en orden (GET /api/productos)
-        get("/api/productos", (request, response) -> {
-            response.status(200);
-            return gson.toJson(arbol.obtenerProductosEnOrden());
-        });
-
-        // Endpoint para eliminar un producto (DELETE /api/productos/:id)
-        delete("/api/productos/:id", (request, response) -> {
-            int idEliminar = Integer.parseInt(request.params(":id"));
-            boolean eliminadoEnArbol = arbol.eliminarp(idEliminar);
-            boolean eliminadoEnHash = tablaHash.eliminarProducto(idEliminar);
-            
-            if (eliminadoEnArbol && eliminadoEnHash) {
+    private static String eliminarProducto(Request request, Response response) {
+        try {
+            int id = Integer.parseInt(request.params(":id"));
+            boolean eliminado = tablaHash.eliminarProducto(id);
+            if (eliminado) {
                 response.status(200);
                 return "Producto eliminado exitosamente.";
             } else {
                 response.status(404);
-                if (!eliminadoEnArbol) {
-                    return "No se pudo eliminar el producto en el árbol.";
-                } else if (!eliminadoEnHash) {
-                    return "No se pudo eliminar el producto en la tabla hash.";
-                }
-                return "No se pudo eliminar el producto o tiene stock disponible.";
+                return "Producto no encontrado.";
             }
-        });
+        } catch (NumberFormatException e) {
+            response.status(400);
+            return "ID inválido.";
+        }
     }
 }

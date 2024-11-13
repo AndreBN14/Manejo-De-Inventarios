@@ -3,50 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manejo de Inventario</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Gestión de Inventario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <h1>Manejo de Inventario</h1>
+    <div class="container my-5">
+        <h1 class="text-center">Sistema de Inventario</h1>
 
-    <!-- Formulario para añadir un producto -->
-    <section id="add-product-section">
-        <h2>Añadir Producto</h2>
-        <form id="add-product-form">
-            <input type="number" id="id" placeholder="ID del producto" required>
-            <input type="text" id="nombre" placeholder="Nombre del producto" required>
-            <input type="number" id="cantidad" placeholder="Cantidad" required>
-            <input type="number" step="0.01" id="precio" placeholder="Precio" required>
-            <button type="submit">Añadir Producto</button>
-        </form>
-    </section>
+        <!-- Formulario para añadir producto -->
+        <div class="card p-4">
+            <h3>Añadir Producto</h3>
+            <form id="addProductForm">
+                <div class="mb-3">
+                    <input type="number" id="productId" class="form-control" placeholder="ID del Producto" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" id="productName" class="form-control" placeholder="Nombre del Producto" required>
+                </div>
+                <div class="mb-3">
+                    <input type="number" id="productQuantity" class="form-control" placeholder="Cantidad" required>
+                </div>
+                <div class="mb-3">
+                    <input type="number" id="productPrice" class="form-control" placeholder="Precio" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Añadir Producto</button>
+            </form>
+        </div>
 
-    <!-- Formulario para actualizar un producto -->
-    <section id="update-product-section">
-        <h2>Actualizar Producto</h2>
-        <form id="update-product-form">
-            <input type="number" id="update-id" placeholder="ID del producto" required>
-            <input type="number" id="update-cantidad" placeholder="Nueva cantidad">
-            <input type="number" step="0.01" id="update-precio" placeholder="Nuevo precio">
-            <button type="submit">Actualizar Producto</button>
-        </form>
-    </section>
+        <!-- Sección para eliminar producto -->
+        <div class="card p-4 mt-4">
+            <h3>Eliminar Producto</h3>
+            <input type="number" id="deleteProductId" class="form-control mb-3" placeholder="ID del Producto">
+            <button onclick="deleteProduct()" class="btn btn-danger w-100">Eliminar Producto</button>
+        </div>
 
-    <!-- Formulario para eliminar un producto -->
-    <section id="delete-product-section">
-        <h2>Eliminar Producto</h2>
-        <form id="delete-product-form">
-            <input type="number" id="delete-id" placeholder="ID del producto" required>
-            <button type="submit">Eliminar Producto</button>
-        </form>
-    </section>
+        <!-- Sección para mostrar todos los productos -->
+        <div class="card p-4 mt-4">
+            <h3>Lista de Productos</h3>
+            <div id="productList" class="mt-3"></div>
+        </div>
+    </div>
 
-    <!-- Lista de productos -->
-    <section id="product-list-section">
-        <h2>Lista de Productos</h2>
-        <ul id="product-list"></ul>
-    </section>
-
-    <script src="/js/script.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 </html>

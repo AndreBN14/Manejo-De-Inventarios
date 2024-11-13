@@ -1,10 +1,6 @@
 com\example\manejodeinventario\ListaEnlazada$NodoProducto.class
+com\example\manejodeinventario\TablaHash.class
 com\example\manejodeinventario\ManejoDeInventario.class
 com\example\manejodeinventario\ListaEnlazada.class
-com\example\manejodeinventario\Arbol.class
+com\example\manejodeinventario\GestorProductos.class
 com\example\manejodeinventario\Producto.class
-com\example\manejodeinventario\Nodo.class
-com\example\manejodeinventario\TablaHash.class
-com\example\manejodeinventario\BuscadorProductos.class
-com\example\manejodeinventario\ActualizadorProductos.class
-com\example\manejodeinventario\NodoProducto.class

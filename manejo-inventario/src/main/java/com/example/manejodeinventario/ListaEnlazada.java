@@ -1,89 +1,64 @@
 package com.example.manejodeinventario;
 
-// Para la tabla hash para el manejo de colisiones
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 public class ListaEnlazada {
     private NodoProducto lista = null;
-    
-    public void agregarProducto(int id, Producto producto){
-        NodoProducto actual = lista;
 
-        // Buscar si ya existe en la lista para actualizarlo
-        while(actual != null){
-            if(actual.id == id){
+    public void agregarProducto(int id, Producto producto) {
+        NodoProducto actual = lista;
+        while (actual != null) {
+            if (actual.id == id) { // Actualizar si ya existe
                 actual.producto = producto;
                 return;
             }
             actual = actual.siguiente;
         }
-
-        // Si no existe, agregarlo al inicio de la lista
-        NodoProducto np = new NodoProducto(id, producto);
-        np.siguiente = lista;
-        lista = np;
+        // Agregar nuevo producto al inicio de la lista
+        NodoProducto nuevoNodo = new NodoProducto(id, producto);
+        nuevoNodo.siguiente = lista;
+        lista = nuevoNodo;
     }
-    
-    public Producto obtenerProducto(int id){
-        NodoProducto actual = lista;
 
-        // Buscar producto por ID
-        while(actual != null){
-            if(actual.id == id){
-                return actual.producto;
+    public Optional<Producto> obtenerProducto(int id) {
+        NodoProducto actual = lista;
+        while (actual != null) {
+            if (actual.id == id) {
+                return Optional.of(actual.producto);
             }
             actual = actual.siguiente;
         }
-        return null; // Producto no encontrado
+        return Optional.empty();
     }
-    
-    public void mostrarLista(){
-        NodoProducto actual = lista;
-        System.out.println("La lista es: ");
-        
-        // Mostrar todos los productos en la lista
-        while(actual != null){
-            System.out.println("[" + actual.producto + "]");
-            actual = actual.siguiente;
-        }
-        System.out.println("null");
-    }
-    
+
     public boolean eliminarNodo(int id) {
         if (lista == null) return false;
-
-        // Si el nodo a eliminar es el primero
-        if (lista.id == id) {
+        if (lista.id == id) { // Si es el primer nodo
             lista = lista.siguiente;
             return true;
         }
-
-        // Buscar nodo a eliminar
         NodoProducto actual = lista;
         while (actual.siguiente != null && actual.siguiente.id != id) {
             actual = actual.siguiente;
         }
-
-        // Si no se encontró el nodo
         if (actual.siguiente == null) return false;
-
-        // Eliminar nodo
-        actual.siguiente = actual.siguiente.siguiente;
+        actual.siguiente = actual.siguiente.siguiente; // Saltar el nodo
         return true;
     }
-    
-    public Producto obtenerProductoPorNombre(String nombre) {
+
+    public Optional<Producto> obtenerProductoPorNombre(String nombre) {
         NodoProducto actual = lista;
-        
-        // Buscar producto por nombre
         while (actual != null) {
             if (actual.producto.getNombre().equalsIgnoreCase(nombre)) {
-                return actual.producto;
+                return Optional.of(actual.producto);
             }
             actual = actual.siguiente;
         }
-        return null; // Producto no encontrado
+        return Optional.empty();
     }
 
-    // Clase NodoProducto interna
     private class NodoProducto {
         int id;
         Producto producto;
@@ -94,5 +69,15 @@ public class ListaEnlazada {
             this.producto = producto;
             this.siguiente = null;
         }
+    }
+
+    public List<Producto> getLista() {
+        List<Producto> productos = new ArrayList<>();
+        NodoProducto actual = lista;
+        while (actual != null) {
+            productos.add(actual.producto);
+            actual = actual.siguiente;
+        }
+        return productos;
     }
 }

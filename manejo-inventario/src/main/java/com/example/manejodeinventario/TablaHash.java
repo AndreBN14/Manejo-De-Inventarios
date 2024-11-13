@@ -1,76 +1,67 @@
 package com.example.manejodeinventario;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class TablaHash {
-    private ListaEnlazada[] tabla;
+    private ConcurrentHashMap<Integer, ListaEnlazada> tabla;
     private int tamano;
-    
-    public TablaHash(int tamano){
+
+    public TablaHash(int tamano) {
         this.tamano = tamano;
-        tabla = new ListaEnlazada[tamano];
-        
-        for(int i=0; i<tamano; i++){
-            tabla[i] = new ListaEnlazada();
+        this.tabla = new ConcurrentHashMap<>(tamano);
+        for (int i = 0; i < tamano; i++) {
+            tabla.put(i, new ListaEnlazada());
         }
     }
-    
-    public int funcionHash(int id){
+
+    private int funcionHash(int id) {
         return id % tamano;
     }
-    
-    public void insertar(Producto producto){
-        int indice = funcionHash(producto.getId());
-        tabla[indice].agregarProducto(producto.getId(), producto);
+
+    public void insertar(Producto producto) {
+        int hashIndex = funcionHash(producto.getId());
+        tabla.computeIfAbsent(hashIndex, k -> new ListaEnlazada())
+             .agregarProducto(producto.getId(), producto);
     }
-    
-    public Producto buscar(int id){
-        int indice = funcionHash(id);
-        return tabla[indice].obtenerProducto(id);
-    }
-    
-    public void mostrarTabla(){
-        for(short i=0; i<tamano;i++){
-            System.out.println("Indice--> " + i + ":");
-            tabla[i].mostrarLista();
-        }
+
+    public Optional<Producto> buscar(int id) {
+        return Optional.ofNullable(tabla.get(funcionHash(id)))
+                       .flatMap(lista -> lista.obtenerProducto(id));
     }
 
     public boolean eliminarProducto(int id) {
-        int indice = funcionHash(id);
-        Producto producto = tabla[indice].obtenerProducto(id);
-
-        if (producto == null) {
-            System.out.println("Producto con ID " + id + " no encontrado.");
-            return false;
-        }
-        
-        // Llamar al método eliminar de la lista enlazada
-        return tabla[indice].eliminarNodo(id);
+        return tabla.getOrDefault(funcionHash(id), new ListaEnlazada())
+                    .eliminarNodo(id);
     }
-    
-    // Método para actualizar un producto existente en la tabla hash
-    public boolean actualizarProducto(int id, int nuevaCantidad, double nuevoPrecio) {
-        int indice = funcionHash(id);
-        Producto producto = tabla[indice].obtenerProducto(id);
 
-        if (producto != null) {
+    public boolean actualizarProducto(int id, int nuevaCantidad, double nuevoPrecio) {
+        return buscar(id).map(producto -> {
             producto.setCantidad(nuevaCantidad);
             producto.setPrecio(nuevoPrecio);
             return true;
-        } else {
-            System.out.println("Producto con ID " + id + " no encontrado.");
-            return false;
-        }
+        }).orElse(false);
     }
 
-    // Método para buscar un producto por su nombre en toda la tabla hash
-    public Producto buscarPorNombre(String nombre) {
-        for (ListaEnlazada lista : tabla) {
-            Producto producto = lista.obtenerProductoPorNombre(nombre);
-            if (producto != null) {
-                return producto;
-            }
-        }
-        System.out.println("Producto con nombre " + nombre + " no encontrado.");
-        return null;
+    public Optional<Producto> buscarPorNombre(String nombre) {
+        return tabla.values().stream()
+                    .map(lista -> lista.obtenerProductoPorNombre(nombre))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .findFirst();
     }
+
+    public List<Producto> obtenerTodosLosProductos() {
+        List<Producto> productos = new ArrayList<>();
+        // Iteramos sobre cada lista enlazada en la tabla hash
+        for (ListaEnlazada lista : tabla.values()) {
+            // Agregamos todos los productos de esa lista a la lista final
+            productos.addAll(lista.getLista());
+        }
+        return productos;
+    }
+    
+
 }
