@@ -4,3 +4,4 @@ com\example\manejodeinventario\ManejoDeInventario.class
 com\example\manejodeinventario\ListaEnlazada.class
 com\example\manejodeinventario\GestorProductos.class
 com\example\manejodeinventario\Producto.class
+com\example\manejodeinventario\NodoProducto.class

@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container my-5">
-        <h1 class="text-center">Sistema de Inventario</h1>
+        <h1 class="text-center">Stop Inventing</h1>
 
         <!-- Formulario para añadir producto -->
         <div class="card p-4">
@@ -29,6 +29,31 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Añadir Producto</button>
             </form>
+        </div>
+
+        <!-- Formulario para actualizar producto -->
+        <div class="card p-4 mt-4">
+            <h3>Actualizar Producto</h3>
+            <form id="updateProductForm">
+                <div class="mb-3">
+                    <input type="number" id="updateProductId" class="form-control" placeholder="ID del Producto" required>
+                </div>
+                <div class="mb-3">
+                    <input type="number" id="updateProductQuantity" class="form-control" placeholder="Nueva Cantidad" required>
+                </div>
+                <div class="mb-3">
+                    <input type="number" id="updateProductPrice" class="form-control" placeholder="Nuevo Precio" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Actualizar Producto</button>
+            </form>
+        </div>
+
+        <!-- Sección para buscar producto por ID -->
+        <div class="card p-4 mt-4">
+            <h3>Buscar Producto por ID</h3>
+            <input type="number" id="searchProductId" class="form-control mb-3" placeholder="ID del Producto">
+            <button onclick="searchProduct()" class="btn btn-info w-100">Buscar Producto</button>
+            <div id="searchResult" class="mt-3"></div>
         </div>
 
         <!-- Sección para eliminar producto -->
