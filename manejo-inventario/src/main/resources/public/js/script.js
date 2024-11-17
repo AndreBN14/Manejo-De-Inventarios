@@ -19,6 +19,11 @@ function validarDatosProducto(id, nombre, cantidad, precio, validarNombre = true
     return true;
 }
 
+// Función para limpiar un formulario
+function clearForm(formId) {
+    document.getElementById(formId).reset();
+}
+
 // Evento para añadir un producto con validación de datos
 document.getElementById('addProductForm').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -39,6 +44,7 @@ document.getElementById('addProductForm').addEventListener('submit', function (e
     .then(message => {
         alert(message);
         loadProductList();
+        clearForm('addProductForm'); // Limpiar el formulario después de añadir
     })
     .catch(error => alert('Error al añadir producto: ' + error));
 });
@@ -62,6 +68,7 @@ document.getElementById('updateProductForm').addEventListener('submit', function
     .then(message => {
         alert(message);
         loadProductList();
+        clearForm('updateProductForm'); // Limpiar el formulario después de actualizar
     })
     .catch(error => alert('Error al actualizar producto: ' + error));
 });
@@ -77,18 +84,34 @@ function searchProduct() {
         })
         .then(product => {
             document.getElementById('searchResult').innerHTML = `
-                <div class="card mt-2 p-3">
-                    <h4>${product.nombre}</h4>
-                    <p>ID: ${product.id}</p>
-                    <p>Cantidad: ${product.cantidad}</p>
-                    <p>Precio: $${product.precio}</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered mt-3">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>${product.id}</td>
+                                <td>${product.nombre}</td>
+                                <td>${product.cantidad}</td>
+                                <td>$${product.precio.toFixed(2)}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             `;
         })
         .catch(error => {
             document.getElementById('searchResult').innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+            document.getElementById('searchProductId').value = ''; // Limpiar campo de búsqueda después de error
         });
 }
+
 // Función para eliminar un producto
 function deleteProduct() {
     const productId = document.getElementById('deleteProductId').value;
@@ -98,8 +121,9 @@ function deleteProduct() {
     .then(response => response.text())
     .then(message => {
         alert(message);
-        loadProductList();  // Actualizar la lista de productos después de eliminar uno
-        // Limpiar el resultado de búsqueda si el ID coincide con el producto eliminado
+        loadProductList();
+        // Limpiar el campo de ID de eliminación y el resultado de búsqueda si coincide
+        document.getElementById('deleteProductId').value = '';
         const searchResultId = document.getElementById('searchProductId').value;
         if (searchResultId === productId) {
             document.getElementById('searchResult').innerHTML = '';
@@ -111,21 +135,40 @@ function deleteProduct() {
 
 // Función para cargar y mostrar la lista de productos
 function loadProductList() {
-    fetch('/api/productos')  // Asume que esta ruta devuelve una lista de productos
+    fetch('/api/productos')
         .then(response => {
             if (!response.ok) throw new Error('Error al cargar productos');
             return response.json();
         })
         .then(products => {
             const productList = document.getElementById('productList');
-            productList.innerHTML = products.map(product => `
-                <div class="card mt-2 p-3">
-                    <h4>${product.nombre}</h4>
-                    <p>ID: ${product.id}</p>
-                    <p>Cantidad: ${product.cantidad}</p>
-                    <p>Precio: $${product.precio}</p>
-                </div>
-            `).join('');
+            if (products.length === 0) {
+                productList.innerHTML = '<div class="alert alert-info">No hay productos registrados.</div>';
+                return;
+            }
+
+            productList.innerHTML = `
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${products.map(product => `
+                            <tr>
+                                <td>${product.id}</td>
+                                <td>${product.nombre}</td>
+                                <td>${product.cantidad}</td>
+                                <td>$${product.precio.toFixed(2)}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
         })
         .catch(error => {
             document.getElementById('productList').innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
