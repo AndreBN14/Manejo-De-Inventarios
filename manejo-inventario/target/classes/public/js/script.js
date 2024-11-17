@@ -1,10 +1,10 @@
 // Función para validar los datos de producto antes de enviarlos
-function validarDatosProducto(id, nombre, cantidad, precio) {
+function validarDatosProducto(id, nombre, cantidad, precio, validarNombre = true) {
     if (isNaN(id) || id <= 0) {
         alert('ID inválido. Debe ser un número positivo.');
         return false;
     }
-    if (!nombre.trim()) {
+    if (validarNombre && !nombre.trim()) {
         alert('Nombre inválido. Este campo es obligatorio.');
         return false;
     }
@@ -51,7 +51,7 @@ document.getElementById('updateProductForm').addEventListener('submit', function
     const nuevaCantidad = parseInt(document.getElementById('updateProductQuantity').value);
     const nuevoPrecio = parseFloat(document.getElementById('updateProductPrice').value);
 
-    if (!validarDatosProducto(id, '', nuevaCantidad, nuevoPrecio)) return;
+    if (!validarDatosProducto(id, 'dummy', nuevaCantidad, nuevoPrecio, false)) return;
 
     fetch(`/api/productos/${id}`, {
         method: 'PUT',
@@ -99,6 +99,12 @@ function deleteProduct() {
     .then(message => {
         alert(message);
         loadProductList();  // Actualizar la lista de productos después de eliminar uno
+        // Limpiar el resultado de búsqueda si el ID coincide con el producto eliminado
+        const searchResultId = document.getElementById('searchProductId').value;
+        if (searchResultId === productId) {
+            document.getElementById('searchResult').innerHTML = '';
+            document.getElementById('searchProductId').value = '';
+        }
     })
     .catch(error => alert('Error al eliminar producto: ' + error));
 }
@@ -128,4 +134,3 @@ function loadProductList() {
 
 // Cargar la lista de productos cuando la página se carga por primera vez
 document.addEventListener('DOMContentLoaded', loadProductList);
-
