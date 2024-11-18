@@ -18,6 +18,13 @@
             --btn-text: #fff;
             --section-title-color: #2c3e50;
             --placeholder-color: #6c757d;
+            --pagination-bg: #fff;
+            --pagination-border: #f0f0f0;
+            --pagination-text: #2c3e50;
+            --pagination-hover-bg: #f0f0f0;
+            --pagination-hover-text: #2c3e50;
+            --pagination-disabled-bg: #fff;
+            --pagination-disabled-text: #666666;
         }
 
         [data-theme="dark"] {
@@ -31,6 +38,13 @@
             --btn-text: #ffffff;
             --section-title-color: #ffffff;
             --placeholder-color: #adb5bd;
+            --pagination-bg: #333333;
+            --pagination-border: #404040;
+            --pagination-text: #ffffff;
+            --pagination-hover-bg: #404040;
+            --pagination-hover-text: #ffffff;
+            --pagination-disabled-bg: #2d2d2d;
+            --pagination-disabled-text: #666666;
         }
 
         body {
@@ -62,10 +76,36 @@
 
         .table th, .table td {
             color: var(--text-color);
+            background-color: var(--card-bg);
         }
 
         .table th {
             background-color: var(--table-header-bg);
+        }
+
+        /* Estilos específicos para la tabla en modo oscuro */
+        [data-theme="dark"] .table {
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .table-hover tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.075) !important;
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .table td,
+        [data-theme="dark"] .table th {
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .table-light {
+            background-color: var(--table-header-bg);
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .table-light th {
+            background-color: var(--table-header-bg) !important;
+            color: var(--text-color) !important;
         }
 
         .form-control {
@@ -210,6 +250,70 @@
             background-color: var(--card-bg);
             color: var(--text-color);
             border-color: var(--border-color);
+        }
+
+        /* Estilos para el selector de items por página */
+        .form-select {
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+        }
+
+        [data-theme="dark"] .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        /* Estilos para la información de paginación */
+        .pagination-info {
+            color: var(--text-color);
+        }
+
+        /* Estilos para los botones de paginación */
+        .page-link {
+            background-color: var(--pagination-bg);
+            border-color: var(--pagination-border);
+            color: var(--pagination-text);
+        }
+
+        .page-link:hover {
+            background-color: var(--pagination-hover-bg);
+            border-color: var(--pagination-border);
+            color: var(--pagination-hover-text);
+        }
+
+        .page-link:focus {
+            background-color: var(--pagination-hover-bg);
+            border-color: var(--pagination-border);
+            color: var(--pagination-hover-text);
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .page-item.disabled .page-link {
+            background-color: var(--pagination-disabled-bg);
+            border-color: var(--pagination-border);
+            color: var(--pagination-disabled-text);
+        }
+
+        /* Estilos específicos para el modo oscuro */
+        [data-theme="dark"] .page-link {
+            background-color: var(--pagination-bg);
+            border-color: var(--pagination-border);
+            color: var(--pagination-text);
+        }
+
+        [data-theme="dark"] .page-link:hover {
+            background-color: var(--pagination-hover-bg);
+            color: var(--pagination-hover-text);
+        }
+
+        [data-theme="dark"] .page-item.disabled .page-link {
+            background-color: var(--pagination-disabled-bg);
+            color: var(--pagination-disabled-text);
         }
     </style>
 </head>
@@ -366,16 +470,44 @@
                             <table id="productTable" class="table table-hover">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Nombre</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio</th>
+                                        <th class="sortable" data-sort="id">ID <i class="fas fa-sort"></i></th>
+                                        <th class="sortable" data-sort="nombre">Nombre <i class="fas fa-sort"></i></th>
+                                        <th class="sortable" data-sort="cantidad">Cantidad <i class="fas fa-sort"></i></th>
+                                        <th class="sortable" data-sort="precio">Precio <i class="fas fa-sort"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <!-- Los productos se cargarán aquí dinámicamente -->
                                 </tbody>
                             </table>
+                            <!-- Paginación -->
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="items-per-page">
+                                    <select id="itemsPerPage" class="form-select">
+                                        <option value="5">5 por página</option>
+                                        <option value="10" selected>10 por página</option>
+                                        <option value="20">20 por página</option>
+                                        <option value="50">50 por página</option>
+                                    </select>
+                                </div>
+                                <div class="pagination-info">
+                                    Mostrando <span id="startItem">0</span>-<span id="endItem">0</span> de <span id="totalItems">0</span> productos
+                                </div>
+                                <nav aria-label="Product navigation">
+                                    <ul class="pagination mb-0">
+                                        <li class="page-item">
+                                            <button class="page-link" id="prevPage" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </button>
+                                        </li>
+                                        <li class="page-item">
+                                            <button class="page-link" id="nextPage" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>
