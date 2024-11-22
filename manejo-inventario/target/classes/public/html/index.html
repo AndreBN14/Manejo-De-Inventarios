@@ -392,6 +392,44 @@
 
             <!-- Columna derecha para búsqueda, eliminación y lista -->
             <div class="col-md-8">
+                <!-- Fila para búsqueda y eliminación -->
+                <div class="row mb-4">
+                    <!-- Sección para buscar producto -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="section-title m-0"><i class="fas fa-search me-2"></i>Buscar Producto</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="input-group">
+                                    <input type="number" id="searchProductId" class="form-control" placeholder="ID del Producto">
+                                    <button onclick="searchProduct()" class="btn btn-info">
+                                        <i class="fas fa-search me-2"></i>Buscar
+                                    </button>
+                                </div>
+                                <div id="searchResult"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- Sección para eliminar producto -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="section-title m-0"><i class="fas fa-trash-alt me-2"></i>Eliminar Producto</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <input type="number" id="deleteProductId" class="form-control" placeholder="ID del Producto">
+                                <button onclick="deleteProduct()" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt me-2"></i>Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
                 <!-- Filtros avanzados -->
                 <div class="card mb-4">
                     <div class="card-header">
@@ -419,41 +457,6 @@
                                 </button>
                                 <button id="clearFilters" class="btn btn-secondary ms-2">
                                     <i class="fas fa-times me-2"></i>Limpiar Filtros
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sección para buscar producto -->
-                <div class="col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="section-title m-0"><i class="fas fa-search me-2"></i>Buscar Producto</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="input-group mb-3">
-                                <input type="number" id="searchProductId" class="form-control" placeholder="ID del Producto">
-                                <button onclick="searchProduct()" class="btn btn-info">
-                                    <i class="fas fa-search me-2"></i>Buscar
-                                </button>
-                            </div>
-                            <div id="searchResult"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sección para eliminar producto -->
-                <div class="col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="section-title m-0"><i class="fas fa-trash-alt me-2"></i>Eliminar Producto</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="input-group mb-3">
-                                <input type="number" id="deleteProductId" class="form-control" placeholder="ID del Producto">
-                                <button onclick="deleteProduct()" class="btn btn-danger">
-                                    <i class="fas fa-trash-alt me-2"></i>Eliminar
                                 </button>
                             </div>
                         </div>
