@@ -1,5 +1,10 @@
 package com.example.manejodeinventario;
 
+/**
+ * Representa un producto en el sistema de inventario.
+ * Esta clase almacena toda la información relevante de un producto,
+ * incluyendo su identificador único, nombre, cantidad en stock y precio.
+ */
 public class Producto {
     private int id;
     private String nombre;

@@ -1,6 +1,10 @@
 package com.example.manejodeinventario;
 
-//Para la lista simple de la tabla hash
+/**
+ * Representa un nodo en una lista enlazada de productos.
+ * Esta clase se utiliza como elemento básico para implementar la estructura
+ * de datos de la tabla hash que almacena los productos del inventario.
+ */
 public class NodoProducto {
     int id;
     Producto producto;
