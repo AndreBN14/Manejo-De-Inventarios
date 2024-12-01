@@ -1,4 +1,16 @@
-// Función para mostrar notificaciones
+/**
+ * Archivo principal de JavaScript para el manejo del inventario
+ * Contiene todas las funciones necesarias para la gestión de productos,
+ * incluyendo operaciones CRUD, paginación, ordenamiento y filtrado
+ */
+
+// ============= UTILIDADES Y FUNCIONES AUXILIARES =============
+
+/**
+ * Muestra una notificación temporal en la esquina superior derecha
+ * @param {string} message - Mensaje a mostrar
+ * @param {string} type - Tipo de notificación ('success', 'danger', etc.)
+ */
 function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
     notification.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 end-0 m-3`;
@@ -10,7 +22,15 @@ function showNotification(message, type = 'success') {
     setTimeout(() => notification.remove(), 5000);
 }
 
-// Función para validar los datos de producto antes de enviarlos
+/**
+ * Valida los datos de un producto antes de su inserción o actualización
+ * @param {number} id - ID del producto
+ * @param {string} nombre - Nombre del producto
+ * @param {number} cantidad - Cantidad en inventario
+ * @param {number} precio - Precio del producto
+ * @param {boolean} validarNombre - Indica si se debe validar el nombre
+ * @returns {boolean} - True si los datos son válidos, False en caso contrario
+ */
 function validarDatosProducto(id, nombre, cantidad, precio, validarNombre = true) {
     const errors = [];
     
@@ -34,7 +54,11 @@ function validarDatosProducto(id, nombre, cantidad, precio, validarNombre = true
     return true;
 }
 
-// Función para formatear precio en formato moneda
+/**
+ * Formatea un número a formato de moneda colombiana (COP)
+ * @param {number} amount - Cantidad a formatear
+ * @returns {string} - Cantidad formateada en formato COP
+ */
 function formatCurrency(amount) {
     return new Intl.NumberFormat('es-CO', {
         style: 'currency',
@@ -42,7 +66,12 @@ function formatCurrency(amount) {
     }).format(amount);
 }
 
-// Función para limpiar un formulario y resetear validación
+// ============= GESTIÓN DE FORMULARIOS Y UI =============
+
+/**
+ * Limpia un formulario y remueve las clases de validación
+ * @param {string} formId - ID del formulario a limpiar
+ */
 function clearForm(formId) {
     const form = document.getElementById(formId);
     if (!form) return;
@@ -55,7 +84,11 @@ function clearForm(formId) {
     });
 }
 
-// Función para manejar errores de fetch
+/**
+ * Maneja las respuestas de las peticiones fetch
+ * @param {Response} response - Respuesta del servidor
+ * @throws {Error} Si la respuesta no es satisfactoria
+ */
 async function handleFetchResponse(response) {
     if (!response.ok) {
         const text = await response.text();
@@ -64,13 +97,27 @@ async function handleFetchResponse(response) {
     return response.text();
 }
 
-// Variables globales para la paginación y ordenamiento
+// ============= VARIABLES GLOBALES DE CONTROL =============
+
+/**
+ * Variables para control de paginación y ordenamiento
+ * currentPage: Página actual en la tabla
+ * itemsPerPage: Cantidad de items por página
+ * currentSort: Configuración actual de ordenamiento
+ * allProducts: Array con todos los productos cargados
+ */
 let currentPage = 1;
 let itemsPerPage = 10;
 let currentSort = { field: 'id', direction: 'asc' };
 let allProducts = [];
 
-// Función para ordenar productos
+// ============= FUNCIONES DE ORDENAMIENTO Y PAGINACIÓN =============
+
+/**
+ * Ordena la lista de productos según la configuración especificada
+ * @param {Array} products - Lista de productos a ordenar
+ * @param {Object} sortConfig - Configuración de ordenamiento {field, direction}
+ */
 function sortProducts(products, sortConfig) {
     return [...products].sort((a, b) => {
         let aValue = a[sortConfig.field];
@@ -90,7 +137,10 @@ function sortProducts(products, sortConfig) {
     });
 }
 
-// Función para actualizar los iconos de ordenamiento
+/**
+ * Actualiza los iconos de ordenamiento en los encabezados de la tabla
+ * @param {Object} sortConfig - Configuración actual de ordenamiento
+ */
 function updateSortIcons(sortConfig) {
     document.querySelectorAll('.sortable i').forEach(icon => {
         icon.className = 'fas fa-sort';
@@ -102,7 +152,13 @@ function updateSortIcons(sortConfig) {
     }
 }
 
-// Función para actualizar la información de paginación
+// ============= OPERACIONES CRUD =============
+
+/**
+ * Actualiza la información de paginación en la UI
+ * @param {Array} filteredProducts - Lista de productos filtrados
+ * Actualiza el contador de items y estado de los botones de navegación
+ */
 function updatePaginationInfo(filteredProducts) {
     const totalItems = filteredProducts.length;
     const startItem = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
@@ -117,7 +173,11 @@ function updatePaginationInfo(filteredProducts) {
     document.getElementById('nextPage').disabled = endItem >= totalItems;
 }
 
-// Función para cargar y mostrar la lista de productos
+/**
+ * Carga la lista completa de productos desde el servidor
+ * Realiza una petición GET a /api/productos y actualiza la UI
+ * En caso de error, muestra una notificación al usuario
+ */
 async function loadProductList() {
     fetch('/api/productos')
         .then(response => response.json())
@@ -131,7 +191,13 @@ async function loadProductList() {
         });
 }
 
-// Función para aplicar filtros y actualizar la tabla
+/**
+ * Aplica los filtros actuales y actualiza la visualización de la tabla
+ * - Aplica filtros de precio y cantidad
+ * - Ordena los productos según la configuración actual
+ * - Aplica la paginación
+ * - Actualiza la UI con los resultados
+ */
 function applyFiltersAndUpdate() {
     let filteredProducts = [...allProducts];
     
@@ -186,6 +252,14 @@ function applyFiltersAndUpdate() {
     updateSortIcons(currentSort);
 }
 
+// ============= GESTIÓN DE PRODUCTOS =============
+
+/**
+ * Maneja el evento de envío del formulario de nuevo producto
+ * Valida los datos y realiza la petición POST al servidor
+ * @param {Event} e - Evento del formulario
+ */
+
 // Evento para añadir un producto con validación de datos
 document.getElementById('addProductForm').addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -239,7 +313,11 @@ document.getElementById('updateProductForm').addEventListener('submit', async fu
     }
 });
 
-// Función para buscar un producto por ID
+/**
+ * Busca un producto por ID
+ * Realiza una petición GET al servidor y actualiza el formulario
+ * con los datos del producto encontrado
+ */
 async function searchProduct() {
     const searchInput = document.getElementById('searchProductId');
     const id = parseInt(searchInput.value);
@@ -286,7 +364,11 @@ async function searchProduct() {
     }
 }
 
-// Función para eliminar un producto
+/**
+ * Elimina un producto del inventario
+ * Realiza una petición DELETE al servidor y actualiza la tabla
+ * Muestra notificaciones de éxito o error según corresponda
+ */
 async function deleteProduct() {
     const deleteInput = document.getElementById('deleteProductId');
     const productId = deleteInput.value;
@@ -321,7 +403,14 @@ async function deleteProduct() {
     }
 }
 
-// Dark Mode Toggle
+// ============= GESTIÓN DE TEMA =============
+
+/**
+ * Inicializa y gestiona el tema de la aplicación (claro/oscuro)
+ * - Carga la preferencia del usuario desde localStorage
+ * - Aplica el tema correspondiente
+ * - Configura el toggle para cambiar entre temas
+ */
 function initTheme() {
     const checkbox = document.getElementById('checkbox');
     if (!checkbox) return; // Si no existe el checkbox, salimos de la función
@@ -337,7 +426,12 @@ function initTheme() {
     });
 }
 
-// Filtros avanzados
+// ============= FILTROS AVANZADOS =============
+
+/**
+ * Configuración de filtros activos
+* Almacena los valores actuales de los filtros de precio y cantidad
+*/
 let activeFilters = {
     minPrice: null,
     maxPrice: null,
@@ -345,6 +439,11 @@ let activeFilters = {
     maxQuantity: null
 };
 
+/**
+ * Aplica los filtros a la lista de productos
+ * @param {Array} products - Lista de productos a filtrar
+ * @returns {Array} - Lista de productos filtrados
+ */
 function applyFilters(products) {
     if (!products) return [];
     
@@ -361,6 +460,10 @@ function applyFilters(products) {
     });
 }
 
+/**
+ * Actualiza los valores de los filtros según la entrada del usuario
+ * Valida y normaliza los valores ingresados
+ */
 function updateFilters() {
     const minPriceEl = document.getElementById('minPrice');
     const maxPriceEl = document.getElementById('maxPrice');
@@ -378,6 +481,10 @@ function updateFilters() {
     loadProductList();
 }
 
+/**
+ * Limpia todos los filtros aplicados
+ * Resetea los campos de filtro y actualiza la tabla
+ */
 function clearFilters() {
     const elements = ['minPrice', 'maxPrice', 'minQuantity', 'maxQuantity'];
     elements.forEach(id => {
@@ -394,7 +501,9 @@ function clearFilters() {
     loadProductList();
 }
 
-// Event Listeners
+// ============= EVENT LISTENERS =============
+
+// Configuración inicial de la aplicación
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar tema
     initTheme();
