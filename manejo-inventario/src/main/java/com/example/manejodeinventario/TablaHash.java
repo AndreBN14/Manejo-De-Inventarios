@@ -30,9 +30,9 @@ public class TablaHash {
      * @param id ID del producto
      * @return índice en la tabla hash
      */
-    private int funcionHash(int id) {
+    /*private int funcionHash(int id) {
         return id % tamano;
-    }
+    }*/
 
     /**
      * Inserta un nuevo producto en la tabla hash.
@@ -40,7 +40,7 @@ public class TablaHash {
      * @param producto Producto a insertar o actualizar
      */
     public void insertar(Producto producto) {
-        int hashIndex = funcionHash(producto.getId());
+        int hashIndex = producto.getId();
         tabla.computeIfAbsent(hashIndex, k -> new ListaEnlazada())
              .agregarProducto(producto.getId(), producto);
     }
@@ -51,7 +51,7 @@ public class TablaHash {
      * @return Optional conteniendo el producto si existe, Optional.empty() si no
      */
     public Optional<Producto> buscar(int id) {
-        return Optional.ofNullable(tabla.get(funcionHash(id)))
+        return Optional.ofNullable(tabla.get(id))
                        .flatMap(lista -> lista.obtenerProducto(id));
     }
 
@@ -61,7 +61,7 @@ public class TablaHash {
      * @return true si el producto fue eliminado, false si no existía
      */
     public boolean eliminarProducto(int id) {
-        return tabla.getOrDefault(funcionHash(id), new ListaEnlazada())
+        return tabla.getOrDefault(id, new ListaEnlazada())
                     .eliminarNodo(id);
     }
 

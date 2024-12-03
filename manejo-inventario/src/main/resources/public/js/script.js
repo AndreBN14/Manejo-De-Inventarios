@@ -265,20 +265,22 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
     e.preventDefault();
     this.classList.add('was-validated');
 
-    const id = parseInt(document.getElementById('productId').value);
+    //const id = parseInt(document.getElementById('productId').value);
     const nombre = document.getElementById('productName').value;
     const cantidad = parseInt(document.getElementById('productQuantity').value);
     const precio = parseFloat(document.getElementById('productPrice').value);
 
-    if (!validarDatosProducto(id, nombre, cantidad, precio)) return;
+    //if (!validarDatosProducto(id, nombre, cantidad, precio)) return;
 
     try {
         const response = await fetch('/api/productos', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id, nombre, cantidad, precio })
+            //body: JSON.stringify({ id, nombre, cantidad, precio })
+            body: JSON.stringify({ nombre, cantidad, precio })
         });
         const message = await handleFetchResponse(response);
+
         showNotification('Producto añadido exitosamente');
         clearForm('addProductForm');
         loadProductList();

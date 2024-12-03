@@ -11,11 +11,28 @@ public class Producto {
     private int cantidad;
     private double precio;
 
-    public Producto(int id, String nombre, int cantidad, double precio) {
+    /*public Producto(int id, String nombre, int cantidad, double precio) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.precio = precio;
+    }*/
+
+    public Producto(String nombre, int cantidad, double precio) {
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.id = this.hash(nombre);
+    }
+
+    private int hash(String n){
+        int h = 0;
+        for (int i = 0; i < n.length(); i++){
+            int hex = n.codePointAt(i);
+            h = (333667*h + hex) % 997;
+        }
+        System.out.println(h);
+        return h;
     }
 
     public int getId() {

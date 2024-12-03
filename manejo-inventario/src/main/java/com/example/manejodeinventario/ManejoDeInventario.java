@@ -1,6 +1,7 @@
 package com.example.manejodeinventario;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import spark.Request;
 import spark.Response;
@@ -21,7 +22,7 @@ public class ManejoDeInventario {
     private static final Gson gson = new Gson();
 
     /** Tabla hash para almacenar y gestionar los productos */
-    private static TablaHash tablaHash = new TablaHash(10);
+    private static TablaHash tablaHash = new TablaHash(1000);
 
     /** Gestor de productos que encapsula la lógica de negocio */
     private static GestorProductos gestorProductos = new GestorProductos(tablaHash);
@@ -60,9 +61,14 @@ public class ManejoDeInventario {
      */
     private static String añadirProducto(Request request, Response response) {
         try {
-            Producto nuevoProducto = gson.fromJson(request.body(), Producto.class);
+            JsonObject json = gson.fromJson(request.body(), JsonObject.class);
+            String n = json.get("nombre").getAsString();
+            int c = json.get("cantidad").getAsInt();
+            double p = json.get("precio").getAsDouble();
+            Producto nuevoProducto = new Producto(n,c,p);
             tablaHash.insertar(nuevoProducto);
             response.status(201);
+            //gson.toJson(nuevoProducto);
             return "Producto añadido exitosamente.";
         } catch (Exception e) {
             response.status(400);
