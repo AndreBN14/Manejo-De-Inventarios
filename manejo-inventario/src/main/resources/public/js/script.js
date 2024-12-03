@@ -55,14 +55,14 @@ function validarDatosProducto(id, nombre, cantidad, precio, validarNombre = true
 }
 
 /**
- * Formatea un número a formato de moneda colombiana (COP)
+ * Formatea un número a formato de moneda USD
  * @param {number} amount - Cantidad a formatear
- * @returns {string} - Cantidad formateada en formato COP
+ * @returns {string} - Cantidad formateada en formato USD
  */
 function formatCurrency(amount) {
-    return new Intl.NumberFormat('es-CO', {
+    return new Intl.NumberFormat('es-PE', {
         style: 'currency',
-        currency: 'COP'
+        currency: 'USD'
     }).format(amount);
 }
 
@@ -279,13 +279,17 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
             //body: JSON.stringify({ id, nombre, cantidad, precio })
             body: JSON.stringify({ nombre, cantidad, precio })
         });
-        //const message = await handleFetchResponse(response);
-        const product = await response.json();
-        document.getElementById('productId').value = product.id;
-        document.getElementById('productId').classList.add('is-valid');
-        showNotification('Producto añadido exitosamente');
-        //clearForm('addProductForm');
-        loadProductList();
+        const message = await handleFetchResponse(response);
+        if (response.status === 200) {
+            showNotification('Producto ya existe.');
+        } else {
+            const product = JSON.parse(message);
+            document.getElementById('productId').value = product.id;
+            document.getElementById('productId').classList.add('is-valid');
+            showNotification('Producto añadido exitosamente');
+            //clearForm('addProductForm');
+            loadProductList();
+        }
     } catch (error) {
         showNotification(error.message, 'danger');
     }

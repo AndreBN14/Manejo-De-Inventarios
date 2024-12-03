@@ -65,6 +65,10 @@ public class ManejoDeInventario {
             String n = json.get("nombre").getAsString();
             int c = json.get("cantidad").getAsInt();
             double p = json.get("precio").getAsDouble();
+            if (gestorProductos.buscarPorNombre(n) != null) {
+                response.status(200);
+                return "Producto ya existe.";
+            }
             Producto nuevoProducto = new Producto(n,c,p);
             tablaHash.insertar(nuevoProducto);
             response.status(201);
