@@ -68,8 +68,7 @@ public class ManejoDeInventario {
             Producto nuevoProducto = new Producto(n,c,p);
             tablaHash.insertar(nuevoProducto);
             response.status(201);
-            //gson.toJson(nuevoProducto);
-            return "Producto añadido exitosamente.";
+            return gson.toJson(nuevoProducto);
         } catch (Exception e) {
             response.status(400);
             return "Error en el formato del producto.";

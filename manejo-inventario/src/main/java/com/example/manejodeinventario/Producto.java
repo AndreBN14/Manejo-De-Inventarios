@@ -32,7 +32,7 @@ public class Producto {
             h = (333667*h + hex) % 997;
         }
         System.out.println(h);
-        return h;
+        return h+1;
     }
 
     public int getId() {

@@ -279,10 +279,12 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
             //body: JSON.stringify({ id, nombre, cantidad, precio })
             body: JSON.stringify({ nombre, cantidad, precio })
         });
-        const message = await handleFetchResponse(response);
-
+        //const message = await handleFetchResponse(response);
+        const product = await response.json();
+        document.getElementById('productId').value = product.id;
+        document.getElementById('productId').classList.add('is-valid');
         showNotification('Producto añadido exitosamente');
-        clearForm('addProductForm');
+        //clearForm('addProductForm');
         loadProductList();
     } catch (error) {
         showNotification(error.message, 'danger');
