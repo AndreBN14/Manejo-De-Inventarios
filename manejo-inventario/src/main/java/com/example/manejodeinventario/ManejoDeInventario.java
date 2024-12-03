@@ -22,7 +22,7 @@ public class ManejoDeInventario {
     private static final Gson gson = new Gson();
 
     /** Tabla hash para almacenar y gestionar los productos */
-    private static TablaHash tablaHash = new TablaHash(1000);
+    private static TablaHash tablaHash = new TablaHash(10);
 
     /** Gestor de productos que encapsula la lógica de negocio */
     private static GestorProductos gestorProductos = new GestorProductos(tablaHash);
