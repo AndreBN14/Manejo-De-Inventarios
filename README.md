@@ -20,6 +20,27 @@ Este proyecto es un sistema de gestión de inventarios desarrollado como parte d
 2. Abrir el proyecto en su IDE preferido
 3. Ejecutar la aplicación
 
+## Dependencias
+1. Tener instalado y configurado Maven en el equipo
+
+Tutorial de instalación:
+https://www.youtube.com/watch?v=rl5-yyrmp-0
+
+## Ejecución
+1. Una vez clonado el repositorio abrir la terminal del proyecto
+2. En la terminal ingresar el comando de instalación de las dependencias:
+mvn clean install
+3. Una vez instaladas navegar a la carpeta manejo-inventario
+cd manejo-inventario
+4. Ahora en la terminal de la carpeta ingresar el sigueinte comando:
+mvn exec:java
+5. Una vez ingresado cerca al final del mensaje de la terminal habra una dirección de localhost en la cual se estara ejecutando el proyecto
+Ejemplo: 
+[Thread-2] INFO org.eclipse.jetty.server.AbstractConnector - Started ServerConnector@526860db{HTTP/1.1, (http/1.1)}{0.0.0.0:4567}
+En ese caso deberia ingresar al:
+http://localhost:4567
+(Usar el ejermplo de referencia, la dirección siempre variara)
+
 ## Uso
 El sistema permite:
 - Agregar nuevos productos
