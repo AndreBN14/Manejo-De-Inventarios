@@ -1,5 +1,6 @@
 package com.example.manejodeinventario;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +10,7 @@ import java.util.Optional;
  * Esta estructura de datos permite almacenar y gestionar productos de manera dinámica,
  * permitiendo operaciones de inserción, búsqueda y eliminación.
  */
-public class ListaEnlazada {
+public class ListaEnlazada implements Serializable{
     /** Referencia al primer nodo de la lista enlazada */
     private NodoProducto lista = null;
 
@@ -91,7 +92,7 @@ public class ListaEnlazada {
      * Clase interna que representa un nodo en la lista enlazada.
      * Cada nodo contiene un ID, un producto y una referencia al siguiente nodo.
      */
-    private class NodoProducto {
+    /*private class NodoProducto {
         int id;
         Producto producto;
         NodoProducto siguiente;
@@ -101,7 +102,7 @@ public class ListaEnlazada {
             this.producto = producto;
             this.siguiente = null;
         }
-    }
+    }*/
 
     /**
      * Convierte la lista enlazada a una lista de Java.

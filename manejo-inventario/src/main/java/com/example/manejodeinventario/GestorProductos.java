@@ -6,7 +6,7 @@ package com.example.manejodeinventario;
  */
 public class GestorProductos {
     //Estructura de datos que almacena los productos
-    private TablaHash tablaHash;
+    private final TablaHash tablaHash;
     
     //Constructor de la clase con parametro tablaHash
     public GestorProductos(TablaHash tablaHash) {

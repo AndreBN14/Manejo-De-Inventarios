@@ -178,17 +178,26 @@ function updatePaginationInfo(filteredProducts) {
  * Realiza una petición GET a /api/productos y actualiza la UI
  * En caso de error, muestra una notificación al usuario
  */
+
+async function cargarArchivo() {
+    try {
+        await fetch('/api/cargar');
+    } catch (error) {
+        console.error('Error:', error);
+        showNotification('Error al cargar el archivo', 'danger');
+    }
+}
+
 async function loadProductList() {
-    fetch('/api/productos')
-        .then(response => response.json())
-        .then(products => {
-            allProducts = products;
-            applyFiltersAndUpdate();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showNotification('Error al cargar los productos', 'danger');
-        });
+    try {
+        const response = await fetch('/api/productos');
+        const products = await response.json();
+        allProducts = products;
+        applyFiltersAndUpdate();
+    } catch (error) {
+        console.error('Error:', error);
+        showNotification('Error al cargar los productos', 'danger');
+    }
 }
 
 /**
@@ -512,12 +521,14 @@ function clearFilters() {
 // ============= EVENT LISTENERS =============
 
 // Configuración inicial de la aplicación
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     // Inicializar tema
     initTheme();
 
+    await cargarArchivo();
+
     // Cargar productos
-    loadProductList();
+    await loadProductList();
     
     // Inicializar event listeners para filtros
     const applyFiltersBtn = document.getElementById('applyFilters');

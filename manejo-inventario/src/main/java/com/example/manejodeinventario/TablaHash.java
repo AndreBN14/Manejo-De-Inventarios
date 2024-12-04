@@ -1,5 +1,6 @@
 package com.example.manejodeinventario;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,12 +11,12 @@ import java.util.concurrent.ConcurrentHashMap;
  * Utiliza encadenamiento con listas enlazadas para manejar colisiones y
  * ConcurrentHashMap para garantizar la seguridad en entornos concurrentes.
  */
-public class TablaHash {
+public class TablaHash implements Serializable {
     /** Estructura principal de la tabla hash que mapea índices a listas enlazadas */
-    private ConcurrentHashMap<Integer, ListaEnlazada> tabla;
+    private final ConcurrentHashMap<Integer, ListaEnlazada> tabla;
 
     /** Tamaño de la tabla hash (número de cubetas/buckets[posiciones o espacios de almacenamiento donde se guardan los elementos]) */
-    private int tamano;
+    private final int tamano;
 
     public TablaHash(int tamano) {
         this.tamano = tamano;
