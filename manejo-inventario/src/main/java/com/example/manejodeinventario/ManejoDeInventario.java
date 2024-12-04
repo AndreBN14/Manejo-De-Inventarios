@@ -75,22 +75,22 @@ public class ManejoDeInventario  {
     }
 
     private static void cargarArchivo() {
-    try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream("tablaObj.txt"))) {
-        tablaHash = (TablaHash) entrada.readObject();
-        gestorProductos = new GestorProductos(tablaHash);
-        System.out.println("Archivo cargado exitosamente");
-    } catch (FileNotFoundException e) {
-        System.out.println("Archivo no encontrado, creando uno nuevo...");
-        tablaHash = new TablaHash(10);
-        gestorProductos = new GestorProductos(tablaHash);
-        try {
-            actualizarArchivo();
-        } catch (IOException ioException) {
-            System.out.println("Error al crear el archivo inicial");
+        try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream("tablaObj.txt"))) {
+            tablaHash = (TablaHash) entrada.readObject();
+            gestorProductos = new GestorProductos(tablaHash);
+            System.out.println("Archivo cargado exitosamente");
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo no encontrado, creando uno nuevo...");
+            tablaHash = new TablaHash(10);
+            gestorProductos = new GestorProductos(tablaHash);
+            try {
+                actualizarArchivo();
+            } catch (IOException ioException) {
+                System.out.println("Error al crear el archivo inicial");
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error al leer el archivo");
         }
-    } catch (IOException | ClassNotFoundException e) {
-        System.out.println("Error al leer el archivo");
-    }
     }
     
     /**

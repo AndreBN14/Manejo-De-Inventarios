@@ -91,8 +91,7 @@ public class ListaEnlazada implements Serializable{
     /**
      * Clase interna que representa un nodo en la lista enlazada.
      * Cada nodo contiene un ID, un producto y una referencia al siguiente nodo.
-     */
-    /*private class NodoProducto {
+    private class NodoProducto {
         int id;
         Producto producto;
         NodoProducto siguiente;
