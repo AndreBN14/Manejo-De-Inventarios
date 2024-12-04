@@ -64,10 +64,12 @@ El sistema permite:
 Las contribuciones son bienvenidas. Para cambios importantes, por favor abra primero un issue para discutir lo que le gustaría cambiar.
 
 ## Autores
-- Carlos Montenegro
-- Max Astuhuaman
-- Andre Barrantes
-- Albert Huaman
+- Montenegro Cajahuamán, Carlos Andrés
+- Astuhuaman Vega, Max Steven
+- Barrantes Navarro Joshúa André
+- Huaman Ñahuinlla, Albert Marco Aurelio
+- Reyes Reyes, Jhan Brayan Zamir
+- Munayco Vivanco, Renzo Alexander
 
 ## Licencia
 Este proyecto está bajo la Licencia MIT.
