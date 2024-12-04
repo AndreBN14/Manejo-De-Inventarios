@@ -36,7 +36,7 @@ https://www.youtube.com/watch?v=rl5-yyrmp-0
 
     cd manejo-inventario
 
-4. Ahora en la terminal de la carpeta ingresar el sigueinte comando:
+4. Ahora en la terminal de la carpeta ingresar el siguiente comando:
 
     mvn exec:java
 
@@ -45,6 +45,7 @@ https://www.youtube.com/watch?v=rl5-yyrmp-0
     Ejemplo: 
 
     [Thread-2] INFO org.eclipse.jetty.server.AbstractConnector - Started ServerConnector@526860db{HTTP/1.1, (http/1.1)}{0.0.0.0:4567}
+    
     En ese caso deberia ingresar al:
 
     http://localhost:4567
