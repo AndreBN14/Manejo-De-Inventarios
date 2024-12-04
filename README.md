@@ -12,6 +12,7 @@ Este proyecto es un sistema de gestión de inventarios desarrollado como parte d
 
 ## Tecnologías Utilizadas
 - Java
+- Maven
 - Estructuras de datos avanzadas
 - Interfaz gráfica de usuario
 
@@ -23,8 +24,8 @@ Este proyecto es un sistema de gestión de inventarios desarrollado como parte d
 ## Dependencias
 1. Tener instalado y configurado Maven en el equipo
 
-Tutorial de instalación:
-https://www.youtube.com/watch?v=rl5-yyrmp-0
+    Tutorial de instalación:
+    https://www.youtube.com/watch?v=rl5-yyrmp-0
 
 ## Ejecución
 1. Una vez clonado el repositorio abrir la terminal del proyecto
